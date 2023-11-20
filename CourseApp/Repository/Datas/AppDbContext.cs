@@ -8,11 +8,11 @@ namespace Repository.Datas
 {
     public static class AppDbContext<T>
     {
-        public static List<T> datas;
+        public static List<T> Datas;
 
         static AppDbContext()
         {
-            datas = new List<T>();
+            Datas = new List<T>();
         }
     }
 }

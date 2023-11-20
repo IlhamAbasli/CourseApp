@@ -1,0 +1,37 @@
+Course app
+
+
+1) Userin qeydiyyati olacaq : Qeydiyyat ucun lazim olacaq inputlar : Name, Surname, Age, Email, Password, ConfirmPassword
+2) Login olacaq: User qeydiyyat olduqdan sonra Login olacaq, Login ucun lazim olacaq inputlar: Email ve Paswword
+3) Group modeliniz olacaq.Group ile elaqeli ashagidaki emeliyyatlari icra eden methodlar yazacaqsiz.
+   Create, Delete, Edit, GetById, GetAll, Search (adina gore), Sorting (Capacity-ye gore)
+4) Student modeliniz olacaq. Studentle elaqeli ashagidaki emeliyyatlari icra eden methodlar yazacaqsiz:
+   Create, Delete, Edit, GetById, GetAll, Search (Student - in adina ve soyadina gore), Sorting (Studentlerin age-ne gore)
+
+Description.
+
+Bashliq olaraq login ve  qeydiyyat bolmesi gelir. Ilk once user app-de qeydiyyat olacaq. Qeydiyyat olduqda Password ve ConfirmPasswordun eyni olub olmadigini, Email-de @-isharesinin olub-olmadigini yoxlamalisiniz. Eger bu shertler odenilmirse ona uygun error mesajlar gosterib, yeniden qeydiyyata yonlendirirsiz. Her shey duzgundurse "Register success, Please select one option : 1 - Login, 2 - Register". Eger 1-i secirse Logine gonderecek ve Login ile elaqeli inputlari isteyib Login olacaq, 2-ni secerse yeniden register olacaq. User-in Login prosesinde email-de @ - olub-olmamasi
+yoxlanilmalidir. Login prosesi ugurludursa (email ve password listinizde varsa) useri esas menu-ya yonlendirirsiz. Esas menu ashagidaki sekilde olacaq:
+
+"Welcome our application"
+"Please select one option: Group operations: 1-Create, 2-Delete, 3-Edit, 4-GetById, 5-GetAll, 6-Search, 7-Sorting | Student operations : 8-Create, 9-Delete, 10-Edit, 11-GetById, 12-GetAll,
+ 13-Filter, 14-Search"
+
+
+Etrafli:
+
+1) Userin propertileri : Id, Name, Surname, Age, Email, Password
+2) Qrupun propertileri : Id, Name, Capacity
+3) Studentin propertileri: Id, FullName, Address, Age, Phone
+4) Qrup yaradanda eger eyni adda qrup varsa tekrar yaratmaq mumkun olmamalidir, Ona uygun error mesaj gosterib yonlendirmelidir qrupun yaranma hissesine.
+5) Qrupu Edit etdikde, eger input bosh buraxilibsa qrupun evvelki hemin datasi deyishmemelidir.
+6) Student yaradanda onun hansi qrupa elave edildiyini qeyd olunmalidir. (Meselen : Student yaradanda inputdan GroupId istenilsin, Ele Id-li qrup varsa student hemin qrupa elave edilsin)
+7) Student Edit edildikde onun Grupunu da isteye uygun olaraq deyishe bilmelisiz. Her hansisa input bosh gonderilse kohne datalari qalmalidir.
+
+Project Onion Architecture ile yazilacaq (isteye uygun olaraq).
+
+
+1) Commitler - say minimum 10 eded - 5bal,
+2) Onion Architecture - 15bal
+3) Account prosesleri - 10bal
+4) Her method ucun - 5bal
