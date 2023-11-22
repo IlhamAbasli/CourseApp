@@ -12,7 +12,7 @@ namespace Repository.Repository
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         private static int _id = 1;
-        public void Add(T entity)
+        public void Create(T entity)
         {
             entity.Id = _id++;
             AppDbContext<T>.Datas.Add(entity);
@@ -38,14 +38,5 @@ namespace Repository.Repository
             return AppDbContext<T>.Datas.FirstOrDefault(x => x.Id == id);   
         }
 
-        public List<T> Search(string searchText)
-        {
-            return AppDbContext<T>.Datas.Where(x => x.Equals(searchText.ToLower().Trim())).ToList();
-        }
-
-        public List<T> Sorting(string sortText)
-        {
-            throw null;
-        }
     }
 }

@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Service.Enums
 {
-    public enum StudentOperationTypes
+    public enum OperationTypes
     {
-        StudentCreate = 1,
+        GroupCreate = 1,
+        GroupEdit,
+        GroupDelete,
+        GroupGetById,
+        GroupGetAll,
+        GroupSearch,
+        GroupSorting,
+        StudentCreate,
         StudentEdit,
         StudentDelete,
         StudentGetById,

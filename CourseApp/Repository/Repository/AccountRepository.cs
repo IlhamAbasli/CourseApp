@@ -11,7 +11,7 @@ namespace Repository.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        private static int _id;
+        private static int _id = 1;
         public bool Login(string email, string password)
         {
             var datas = AppDbContext<User>.Datas;
