@@ -11,6 +11,7 @@ namespace Repository.Repository
 {
     public class GroupRepository : BaseRepository<Group>, IGroupRepository
     {
+
         public List<Group> Search(string searchText)
         {
             return AppDbContext<Group>.Datas.Where(x=>x.Name.ToLower().Trim() == searchText.ToLower().Trim()).ToList();
@@ -20,5 +21,7 @@ namespace Repository.Repository
         {
             return AppDbContext<Group>.Datas.OrderBy(x => x.Capacity).ToList();
         }
+
+        
     }
 }

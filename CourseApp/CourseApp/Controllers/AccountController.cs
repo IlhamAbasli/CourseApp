@@ -126,7 +126,6 @@ namespace CourseApp.Controllers
             }
 
             var res = _accountService.Login(email, password);
-
             if (!res)
             {
                 ConsoleColor.DarkRed.ConsoleWriteLine("Email or password is wrong, try again enter your email");

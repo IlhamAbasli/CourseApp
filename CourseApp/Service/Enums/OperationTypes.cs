@@ -9,15 +9,15 @@ namespace Service.Enums
     public enum OperationTypes
     {
         GroupCreate = 1,
-        GroupEdit,
         GroupDelete,
+        GroupEdit,
         GroupGetById,
         GroupGetAll,
         GroupSearch,
         GroupSorting,
         StudentCreate,
-        StudentEdit,
         StudentDelete,
+        StudentEdit,
         StudentGetById,
         StudentGetAll,
         StudentSearch,

@@ -23,15 +23,15 @@ namespace Service.Services
             _studentRepository.Create(student);
         }
 
-        public void Delete(Student student)
+        public bool Delete(int id)
         {
-            _studentRepository.Delete(student);
+            return _studentRepository.Delete(id);
         }
 
-        public void Edit(Student student)
+        public Student Edit(int id)
         {
-            _studentRepository.Edit(student);
-        }
+            return _studentRepository.Edit(id);
+        } 
 
         public List<Student> GetAll()
         {

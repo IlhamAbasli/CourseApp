@@ -10,8 +10,8 @@ namespace Service.Services.Interfaces
     public interface IGroupService
     {
         void Create(Group group);
-        void Edit(Group group);
-        void Delete(Group group);
+        Group Edit(int id);
+        bool Delete(int id);
         List<Group> GetAll();
         Group GetById(int id);  
         List<Group> Search(string searchText);

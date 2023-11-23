@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Models;
 using Repository.Datas;
 using Repository.Repository.Interface;
 using System;
@@ -18,14 +19,30 @@ namespace Repository.Repository
             AppDbContext<T>.Datas.Add(entity);
         }
 
-        public void Delete(T entity)
+        public bool Delete(int id)
         {
-            AppDbContext<T>.Datas.Remove(entity);
+            List<T> datas = AppDbContext<T>.Datas;
+            bool result = false;
+            foreach (var data in datas.ToList())
+            {
+                if (data.Id == id)
+                {
+                    datas.Remove(data);
+                    result = true;
+                }
+            }
+            return result;
         }
 
-        public void Edit(T entity)
+        public T Edit(int id)
         {
-            throw new NotImplementedException();
+            var res = AppDbContext<T>.Datas.FirstOrDefault(x=>x.Id == id);
+            if(res == null)
+            {
+                return null;
+            }
+            return res;
+
         }
 
         public List<T> GetAll()

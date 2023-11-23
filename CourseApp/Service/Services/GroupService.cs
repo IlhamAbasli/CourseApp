@@ -22,14 +22,22 @@ namespace Service.Services
             _groupRepository.Create(group);
         }
 
-        public void Delete(Group group)
+        public bool Delete(int id)
         {
-            _groupRepository.Delete(group);
+            return _groupRepository.Delete(id);
         }
 
-        public void Edit(Group group)
+        public Group Edit(int id)
         {
-            throw new NotImplementedException();
+            var res = _groupRepository.Edit(id);
+
+            if(res.Name == null)
+            {
+                
+            }
+            return res;
+
+            
         }
 
         public List<Group> GetAll()
