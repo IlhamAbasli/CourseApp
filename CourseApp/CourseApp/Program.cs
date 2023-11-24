@@ -58,7 +58,7 @@ while (true)
             groupController.Sort();
             break;
         case (int)OperationTypes.StudentCreate:
-            Console.WriteLine("create");
+            studentController.Create();
             break;
         case (int)OperationTypes.StudentDelete:
             studentController.Delete();
