@@ -64,7 +64,7 @@ while (true)
             studentController.Delete();
             break;
         case (int)OperationTypes.StudentEdit:
-            Console.WriteLine("Edit");
+            studentController.Edit();
             break;
         case (int)OperationTypes.StudentGetById:
             studentController.GetById();

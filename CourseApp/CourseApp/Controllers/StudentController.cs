@@ -222,24 +222,31 @@ namespace CourseApp.Controllers
                     Console.WriteLine("Enter student phone number for change:");
                     Phone: string phoneNumber = Console.ReadLine();
 
-                    if (string.IsNullOrWhiteSpace(phoneNumber))
-                    {
-                        ConsoleColor.DarkRed.ConsoleWriteLine("Phone number is required!");
-                    }
-                    else if (Regex.IsMatch(phoneNumber, "[a-zA-Z]"))
+                    if (Regex.IsMatch(phoneNumber, "[a-zA-Z]"))
                     {
                         ConsoleColor.DarkRed.ConsoleWriteLine("Invalid phone number format");
                         goto Phone;
                     }
 
-                    Console.WriteLine("Enter group name for change");
-                    string groupName = Console.ReadLine();
-                    
+                    Console.WriteLine("Enter group ID for change student group");
+                    GroupId: string groupIdStr = Console.ReadLine();
+                    bool correctFormat = int.TryParse(groupIdStr, out int groupId);
+                    var res = _groupService.GetById(groupId);
+                    if (res == null)
+                    {
+                        ConsoleColor.DarkRed.ConsoleWriteLine("Group not found");
+                        goto GroupId;
+                    }
+                    else if (_studentService.GetAll().Count >= res.Capacity)
+                    {
+                        ConsoleColor.DarkRed.ConsoleWriteLine("This group is full please change to different group");
+                        goto GroupId;
+                    }
 
 
 
 
-                    _studentService.Edit(id,new Student { FullName = fullName, Address = address, Age = age, Phone = phoneNumber);
+                    _studentService.Edit(id,new Student { FullName = fullName, Address = address, Age = age, Phone = phoneNumber, Group = res });
                     ConsoleColor.Green.ConsoleWriteLine("Group successfully edited");
                 }
             }
