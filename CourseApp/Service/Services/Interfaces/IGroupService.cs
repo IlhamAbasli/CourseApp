@@ -10,7 +10,7 @@ namespace Service.Services.Interfaces
     public interface IGroupService
     {
         void Create(Group group);
-        Group Edit(int id);
+        void Edit(int id,Group group);
         bool Delete(int id);
         List<Group> GetAll();
         Group GetById(int id);  

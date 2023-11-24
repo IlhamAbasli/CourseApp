@@ -27,17 +27,21 @@ namespace Service.Services
             return _groupRepository.Delete(id);
         }
 
-        public Group Edit(int id)
+        public void Edit(int id, Group group)
         {
             var res = _groupRepository.Edit(id);
-
-            if(res.Name == null)
+            if (res != null)
             {
-                
+                if (!string.IsNullOrWhiteSpace(group.Name))
+                {
+                    res.Name = group.Name;
+                }
+                if (group.Capacity != 0)
+                {
+                    res.Capacity = group.Capacity;
+                }
             }
-            return res;
 
-            
         }
 
         public List<Group> GetAll()

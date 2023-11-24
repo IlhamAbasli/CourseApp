@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,15 +15,41 @@ namespace CourseApp.Controllers
     internal class StudentController
     {
         private readonly IStudentService _studentService;
+        private readonly IGroupService _groupService;
 
         public StudentController()
         {
             _studentService = new StudentService();
+            _groupService = new GroupService();
+
         }
 
         public void Add()
         {
             Console.WriteLine("*Enter required datas of student*");
+            Console.WriteLine("Which group do you want to add this student?");
+            string groupIdStr = Console.ReadLine();
+            bool IsCorrectFormat = int.TryParse(groupIdStr, out int groupId);
+
+            var response = _groupService.GetById(groupId);
+            if (response != null)
+            {
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             Console.WriteLine("\nEnter student fullname: ");
             string fullName = Console.ReadLine();
 
@@ -36,7 +63,7 @@ namespace CourseApp.Controllers
             string phoneNumber = Console.ReadLine();
 
             Console.WriteLine("Enter student Group");
-
+            
         }
 
         public void Delete()

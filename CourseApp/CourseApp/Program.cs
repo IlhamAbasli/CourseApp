@@ -43,7 +43,7 @@ while (true)
             groupController.Delete();
             break;
         case (int)OperationTypes.GroupEdit:
-            Console.WriteLine("Edit");
+            groupController.Edit();
             break;
         case (int)OperationTypes.GroupGetById:
             groupController.GetById();

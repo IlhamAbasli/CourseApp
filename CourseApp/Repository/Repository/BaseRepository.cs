@@ -36,13 +36,12 @@ namespace Repository.Repository
 
         public T Edit(int id)
         {
-            var res = AppDbContext<T>.Datas.FirstOrDefault(x=>x.Id == id);
-            if(res == null)
+            var res = GetById(id);  
+            if(res != null)
             {
-                return null;
+                return res;
             }
-            return res;
-
+            return null;
         }
 
         public List<T> GetAll()

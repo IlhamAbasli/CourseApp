@@ -146,15 +146,39 @@ namespace CourseApp.Controllers
         public void Edit()
         {
             Console.WriteLine("Enter group ID of the group you want to edit: ");
-            string groupID = Console.ReadLine();
+            Id: string groupID = Console.ReadLine();
 
-            ID: bool IsCorrectFormat = int.TryParse(Console.ReadLine(), out int id);
+            bool IsCorrectFormat = int.TryParse(groupID, out int id);
+            if (IsCorrectFormat)
+            {
+                var res = _groupService.GetById(id);
+                if(res == null)
+                {
+                    Console.WriteLine("Group not found with this ID,try again");
+                    goto Id;
+                }
+                if(res is not null)
+                {
+                    Console.WriteLine($"**Group name: {res.Name}\n**Group capacity: {res.Capacity}");
+
+                    Console.WriteLine("Enter group name for change:");
+                    string name = Console.ReadLine();
+
+                    Console.WriteLine("Enter group capacity for change:");
+                    string? capacityStr = Console.ReadLine();
+                    bool isCorrect = int.TryParse(capacityStr,out int capacity);
+
+                    _groupService.Edit(id, new Group { Name = name, Capacity = capacity });
+                }
+            }
             if (!IsCorrectFormat)
             {
                 ConsoleColor.DarkRed.ConsoleWriteLine("ID format is wrong,try again");
-                goto ID;
+                goto Id;
             }
-            var group = _groupService.Edit(id);
+            
+
+
 
         }
     }

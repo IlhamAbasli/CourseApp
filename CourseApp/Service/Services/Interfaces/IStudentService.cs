@@ -9,8 +9,8 @@ namespace Service.Services.Interfaces
 {
     public interface IStudentService
     {
-        void Add(Student student);
-        Student Edit(int id);
+        void Create(Student student);
+        void Edit(int id,Student student);
         bool Delete(int id);
         List<Student> GetAll();
         Student GetById(int id);

@@ -18,7 +18,7 @@ namespace Service.Services
         {
             _studentRepository = new StudentRepository();
         }
-        public void Add(Student student)
+        public void Create(Student student)
         {
             _studentRepository.Create(student);
         }
@@ -28,9 +28,32 @@ namespace Service.Services
             return _studentRepository.Delete(id);
         }
 
-        public Student Edit(int id)
+        public void Edit(int id, Student student)
         {
-            return _studentRepository.Edit(id);
+            var res = _studentRepository.Edit(id);
+            if(res != null)
+            {
+                if(!string.IsNullOrWhiteSpace(student.FullName))
+                {
+                    res.FullName = student.FullName;
+                }
+                if (!string.IsNullOrWhiteSpace(student.Address))
+                {
+                    res.Address = student.Address;
+                }
+                if (!string.IsNullOrWhiteSpace(student.Phone))
+                {
+                    res.Phone = student.Phone;
+                }
+                if(student.Age != 0)
+                {
+                    res.Age = student.Age;
+                }
+                if(!string.IsNullOrWhiteSpace(student.Group.Name))
+                {
+                    res.Group.Name = student.Group.Name;
+                }
+            }
         } 
 
         public List<Student> GetAll()
