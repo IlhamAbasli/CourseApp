@@ -28,14 +28,13 @@ StudentController studentController = new StudentController();
 /*Menu:*/ Console.WriteLine("Welcome our application");
 while (true)
 {
-    Console.WriteLine("\nChoose one option:\nGroup operations:\n(1) Create group\n(2) Delete group\n(3) Edit group\n(4) Get group by ID\n(5) Show all groups\n(6) Search groups\n(7) Sort groups\n\n**********************************\n\n(8) Add student\n(9) Delete student\n(10) Edit student\n(11) Get student by ID\n(12) Show all students\n(13) Search students\n(14) Sort students");
-
-
+    Menu();
     Operation: string appOperationStr = Console.ReadLine();
     bool IsCorrectOperation = int.TryParse(appOperationStr, out int appOperation);
 
     switch (appOperation)
     {
+        
         case (int)OperationTypes.GroupCreate:
             groupController.Create();
             break;
@@ -84,4 +83,12 @@ while (true)
 
 
     }
+}
+
+
+
+
+static void Menu()
+{
+    Console.WriteLine("\nChoose one option:\nGroup operations:\n(1) Create group\n(2) Delete group\n(3) Edit group\n(4) Get group by ID\n(5) Show all groups\n(6) Search groups\n(7) Sort groups\n\n**********************************\n\n(8) Add student\n(9) Delete student\n(10) Edit student\n(11) Get student by ID\n(12) Show all students\n(13) Search students\n(14) Sort students");
 }

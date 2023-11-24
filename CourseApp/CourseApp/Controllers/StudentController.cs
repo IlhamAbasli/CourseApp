@@ -131,6 +131,12 @@ namespace CourseApp.Controllers
         public void GetAll()
         {
             var res = _studentService.GetAll();
+            if(res.Count == 0)
+            {
+                Console.Clear();
+                ConsoleColor.DarkRed.ConsoleWriteLine("Student list is empty");
+                return;
+            }
             Console.Clear();
             foreach (var student in res)
             {
@@ -232,19 +238,14 @@ namespace CourseApp.Controllers
                     GroupId: string groupIdStr = Console.ReadLine();
                     bool correctFormat = int.TryParse(groupIdStr, out int groupId);
                     var res = _groupService.GetById(groupId);
-                    if (res == null)
+                    if (res is not null)
                     {
-                        ConsoleColor.DarkRed.ConsoleWriteLine("Group not found");
-                        goto GroupId;
+                        if(_studentService.GetAll().Count >= res.Capacity)
+                        {
+                            ConsoleColor.DarkRed.ConsoleWriteLine("This group is full please change to different group");
+                            goto GroupId;
+                        }
                     }
-                    else if (_studentService.GetAll().Count >= res.Capacity)
-                    {
-                        ConsoleColor.DarkRed.ConsoleWriteLine("This group is full please change to different group");
-                        goto GroupId;
-                    }
-
-
-
 
                     _studentService.Edit(id,new Student { FullName = fullName, Address = address, Age = age, Phone = phoneNumber, Group = res });
                     ConsoleColor.Green.ConsoleWriteLine("Group successfully edited");

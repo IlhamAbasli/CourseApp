@@ -49,9 +49,9 @@ namespace Service.Services
                 {
                     res.Age = student.Age;
                 }
-                if(!string.IsNullOrWhiteSpace(student.Group.Name))
+                if(student.Group != null)
                 {
-                    res.Group.Name = student.Group.Name;
+                    res.Group = student.Group;
                 }
             }
         } 

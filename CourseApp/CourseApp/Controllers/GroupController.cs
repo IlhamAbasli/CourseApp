@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Service.Exceptions;
+using Service.Helpers.Constants;
 using Service.Helpers.Extensions;
 using Service.Services;
 using Service.Services.Interfaces;
@@ -21,29 +22,30 @@ namespace CourseApp.Controllers
 
         public void Create()
         {
-            try
+            Console.Clear();
+            Console.WriteLine("Enter group name");
+            Name: string groupName = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(groupName))
             {
-                Console.Clear();
-                Console.WriteLine("Enter group name");
-                Name: string groupName = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(groupName))
+                ConsoleColor.DarkRed.ConsoleWriteLine("Group name is required!");
+                goto Name;
+            }
+
+            var res = _groupService.GetAll();
+            foreach (var item in res)
+            {
+                if (item.Name == groupName)
                 {
-                    ConsoleColor.DarkRed.ConsoleWriteLine("Group name is required!");
+                    Console.WriteLine("Group name has already exist");
                     goto Name;
                 }
+            }
 
-                var res = _groupService.GetAll();
-                foreach (var item in res)
-                {
-                    if (item.Name == groupName)
-                    {
-                        Console.WriteLine("Group name has already exist");
-                        goto Name;
-                    }
-                }
 
-                Console.WriteLine("Enter group capacity");
-                Capacity: string capacityStr = Console.ReadLine();
+            Console.WriteLine("Enter group capacity");
+            Capacity: string capacityStr = Console.ReadLine();
+            try
+            {
                 if (string.IsNullOrWhiteSpace(capacityStr))
                 {
                     ConsoleColor.DarkRed.ConsoleWriteLine("Capacity is required!");
@@ -60,24 +62,31 @@ namespace CourseApp.Controllers
             catch (WrongFormatException ex)
             {
                 ConsoleColor.DarkRed.ConsoleWriteLine($"{ex.Message}");
+                goto Capacity;
             }
         }
 
         public void GetAll()
         {
-            var res = _groupService.GetAll();
-            if(res.Count == 0)
+            try
+            {
+                var res = _groupService.GetAll();
+                if (res.Count == 0)
+                { 
+                    throw new DataNotFoundException(ExceptionMessages.EmptyListMessage);
+                }
+                Console.Clear();
+                int row = 0;
+                foreach (var group in res)
+                {
+                    row++;
+                    Console.WriteLine($"\n**{row}.\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                }
+            }
+            catch (DataNotFoundException ex)
             {
                 Console.Clear();
-                ConsoleColor.DarkRed.ConsoleWriteLine("There is no group in system");
-                return;
-            }
-            Console.Clear();
-            int row = 0;
-            foreach(var group in res)
-            {
-                row++;
-                Console.WriteLine($"\n**{row}.\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
             }
         }
 
@@ -88,39 +97,51 @@ namespace CourseApp.Controllers
             Console.WriteLine("Enter the group ID you want to delete: ");
             ID: string groupID = Console.ReadLine();
             bool IsCorrectFormat = int.TryParse(groupID, out int id);
-
-            if (!IsCorrectFormat)
+            try
             {
-                ConsoleColor.DarkRed.ConsoleWriteLine("ID format is wrong,try again");
+                if (!IsCorrectFormat)
+                {
+                    throw new WrongFormatException(ExceptionMessages.WrongIdFormatMessage);
+                }
+                if (!_groupService.Delete(id))
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Group not found with this ID");
+                }
+                else
+                {
+                    ConsoleColor.Green.ConsoleWriteLine("Group successfully deleted");
+                }
+            }
+            catch (Exception ex)
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
                 goto ID;
-            }
-            if (!_groupService.Delete(id))
-            {
-                ConsoleColor.Red.ConsoleWriteLine("Group not found with this ID");
-            }
-            else
-            {
-                ConsoleColor.Green.ConsoleWriteLine("Group successfully deleted");
             }
         }
 
         public void Search()
         {
-            Console.Clear();
-            Console.WriteLine("Enter group name: ");
-            string groupName = Console.ReadLine();
-
-            var res = _groupService.Search(groupName);
-
-            if(res.Count == 0)
+            try
             {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Group not found");
-                return;
+                Console.Clear();
+                Console.WriteLine("Enter group name: ");
+                string groupName = Console.ReadLine();
+                
+                var res = _groupService.Search(groupName);
+
+                if (res.Count == 0)
+                {
+                    throw new DataNotFoundException("Group not found");
+                }
+
+                foreach (var group in res)
+                {
+                    Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                }
             }
-
-            foreach (var group in res)
+            catch (DataNotFoundException ex)
             {
-                Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
             }
         }
 
@@ -130,31 +151,45 @@ namespace CourseApp.Controllers
             Console.WriteLine("Enter group ID:");
 
             ID: bool IsCorrectFormat = int.TryParse(Console.ReadLine(), out int id);
-            if (!IsCorrectFormat)
+            try
             {
-                ConsoleColor.DarkRed.ConsoleWriteLine("ID format is wrong,try again");
+                if (!IsCorrectFormat)
+                {
+                    throw new WrongFormatException(ExceptionMessages.WrongIdFormatMessage);
+                }
+                var group = _groupService.GetById(id);
+                if (group == null)
+                {
+                    throw new DataNotFoundException(ExceptionMessages.GroupNotFoundWithId);
+                }
+                Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+            }
+            catch (Exception ex)
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
                 goto ID;
             }
-            var group = _groupService.GetById(id);
-
-            if (group == null)
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Group not found with this ID");
-                goto ID;
-            }
-
-            Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
-
-
         }
 
         public void Sort()
         {
-            var res = _groupService.Sort();
-            Console.Clear();
-            foreach (var group in res)
+            try
             {
-                Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                var res = _groupService.Sort();
+                if (res.Count == 0)
+                {
+                    throw new DataNotFoundException(ExceptionMessages.EmptyListMessage);
+                }
+                Console.Clear();
+                foreach (var group in res)
+                {
+                    Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                }
+            }
+            catch (DataNotFoundException ex)
+            {
+                Console.Clear();
+                ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
             }
 
         }
@@ -164,40 +199,55 @@ namespace CourseApp.Controllers
             Console.Clear();
             Console.WriteLine("Enter group ID of the group you want to edit: ");
             Id: string groupID = Console.ReadLine();
-
-            bool IsCorrectFormat = int.TryParse(groupID, out int id);
-            if (IsCorrectFormat)
+            try
             {
-                var res = _groupService.GetById(id);
-                if(res == null)
+                bool IsCorrectFormat = int.TryParse(groupID, out int id);
+                if (IsCorrectFormat)
                 {
-                    Console.WriteLine("Group not found with this ID,try again");
-                    goto Id;
+                    var res = _groupService.GetById(id);
+                    if (res == null)
+                    {
+                        throw new DataNotFoundException(ExceptionMessages.GroupNotFoundWithId);
+                    }
+                    if (res is not null)
+                    {
+                        Console.WriteLine($"\n**Group name: {res.Name}\n**Group capacity: {res.Capacity}");
+
+                        Console.WriteLine("Enter group name for change:");
+                        Name: string name = Console.ReadLine();
+                        var groups = _groupService.GetAll();
+                        foreach (var group in groups)
+                        {
+                            if (group.Name == name)
+                            {
+                                Console.WriteLine("Group name has already exist");
+                                goto Name;
+                            }
+                        }
+
+                        Console.WriteLine("Enter group capacity for change:");
+                        string? capacityStr = Console.ReadLine();
+                        bool isCorrect = int.TryParse(capacityStr, out int capacity);
+
+                        _groupService.Edit(id, new Group { Name = name, Capacity = capacity });
+                        ConsoleColor.Green.ConsoleWriteLine("Group successfully edited");
+                    }
                 }
-                if(res is not null)
+                if (!IsCorrectFormat)
                 {
-                    Console.WriteLine($"\n**Group name: {res.Name}\n**Group capacity: {res.Capacity}");
-
-                    Console.WriteLine("Enter group name for change:");
-                    string name = Console.ReadLine();
-
-                    Console.WriteLine("Enter group capacity for change:");
-                    string? capacityStr = Console.ReadLine();
-                    bool isCorrect = int.TryParse(capacityStr,out int capacity);
-
-                    _groupService.Edit(id, new Group { Name = name, Capacity = capacity });
-                    ConsoleColor.Green.ConsoleWriteLine("Group successfully edited");
+                    throw new WrongFormatException(ExceptionMessages.WrongIdFormatMessage);
                 }
             }
-            if (!IsCorrectFormat)
+            catch(WrongFormatException ex)
             {
-                ConsoleColor.DarkRed.ConsoleWriteLine("ID format is wrong,try again");
+                ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
                 goto Id;
             }
-            
-
-
-
+            catch(DataNotFoundException ex)
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
+                goto Id;
+            }
         }
     }
 }
