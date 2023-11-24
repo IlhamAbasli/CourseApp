@@ -94,6 +94,7 @@ namespace CourseApp.Controllers
             
 
             _accountService.Register(new Domain.Models.User { Name = firstName, Surname = lastName , Age = age ,Email = email, Password = password, });
+            Console.Clear();
             ConsoleColor.DarkGreen.ConsoleWriteLine("Account successfully created");
         }
 
@@ -133,6 +134,7 @@ namespace CourseApp.Controllers
             }
             else
             {
+                Console.Clear();
                 ConsoleColor.Green.ConsoleWriteLine("Login successfull");
             }
 

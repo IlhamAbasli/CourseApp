@@ -1,4 +1,6 @@
 ﻿using Domain.Models;
+using Service.Exceptions;
+using Service.Helpers.Constants;
 using Service.Helpers.Extensions;
 using Service.Services;
 using Service.Services.Interfaces;
@@ -32,73 +34,92 @@ namespace CourseApp.Controllers
             Console.WriteLine("\nWhich group do you want to add this student?");
             GroupId: string groupIdStr = Console.ReadLine();
             bool IsCorrectFormat = int.TryParse(groupIdStr, out int groupId);
-            Student student = new Student();
-            var res = _groupService.GetById(groupId);
-            if(res == null)
+            try
             {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Group not found");
+                Student student = new Student();
+                var res = _groupService.GetById(groupId);
+                if (res == null)
+                {
+                    throw new DataNotFoundException(ExceptionMessages.GroupNotFoundWithId);
+                }
+                else if (_studentService.GetAll().Count >= res.Capacity)
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("This group is full please add to different group");
+                    goto GroupId;
+                }
+                else
+                {
+                    student.Group = res;
+                    ConsoleColor.Green.ConsoleWriteLine($"The student will be added to the {res.Name}");
+                }
+
+
+
+
+                Console.WriteLine("\nEnter student fullname: ");
+                Name: string fullName = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(fullName))
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Fullname is required!");
+                    goto Name;
+                }
+
+                Console.WriteLine("Enter student address: ");
+                Address: string address = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(address))
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Address is required!");
+                    goto Address;
+                }
+                Console.WriteLine("Enter student Age: ");
+                Age: string ageStr = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(ageStr))
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Age is required!");
+                    goto Age;
+                }
+                bool IsCorrectType = byte.TryParse(ageStr, out byte age);
+                try
+                { 
+                    if (!IsCorrectType)
+                    {
+                        throw new WrongFormatException(ExceptionMessages.WrongAgeFormat);
+                    }
+                }
+                catch (WrongFormatException ex)
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
+                    goto Age;
+                }
+
+                Console.WriteLine("Enter student phone number");
+                Phone: string phoneNumber = Console.ReadLine();
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(phoneNumber))
+                    {
+                        ConsoleColor.DarkRed.ConsoleWriteLine("Phone number is required!");
+                        goto Phone;
+                    }
+                    if (Regex.IsMatch(phoneNumber, "[a-zA-Z]"))
+                    {
+                        throw new WrongFormatException(ExceptionMessages.WrongPhoneNumberFormat);
+                    }
+                }
+                catch (WrongFormatException ex)
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
+                    goto Phone;
+                }
+
+                _studentService.Create(new Student { FullName = fullName, Phone = phoneNumber, Address = address, Age = age, Group = res });
+                ConsoleColor.Green.ConsoleWriteLine("Student successfully created");
+            }
+            catch (DataNotFoundException ex)
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
                 goto GroupId;
-            }else if(_studentService.GetAll().Count >= res.Capacity)
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("This group is full please add to different group");
-                goto GroupId;
             }
-            else
-            {
-               student.Group = res;
-               ConsoleColor.Green.ConsoleWriteLine($"The student will be added to the {res.Name}");
-            }
-
-
-
-
-            Console.WriteLine("\nEnter student fullname: ");
-            Name: string fullName = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(fullName))
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Fullname is required!");
-                goto Name;
-            }
-
-            Console.WriteLine("Enter student address: ");
-            Address: string address = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(address))
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Address is required!");
-                goto Address;
-            }
-
-            Console.WriteLine("Enter student Age: ");
-            Age: string ageStr = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(ageStr))
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Age is required!");
-                goto Age;
-            }
-            bool IsCorrectType = byte.TryParse(ageStr, out byte age);
-            if (!IsCorrectType)
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Age format is wrong please enter correct format: ");
-                goto Age;
-            }
-
-            Console.WriteLine("Enter student phone number");
-            Phone: string phoneNumber = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(phoneNumber))
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Phone number is required!");
-                goto Phone;
-            }
-            else if (Regex.IsMatch(phoneNumber, "[a-zA-Z]"))
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Invalid phone number format");
-                goto Phone;
-            }
-
-            _studentService.Create(new Student { FullName = fullName, Phone = phoneNumber, Address = address, Age = age, Group = res });
-            ConsoleColor.Green.ConsoleWriteLine("Student successfully created");
 
 
 

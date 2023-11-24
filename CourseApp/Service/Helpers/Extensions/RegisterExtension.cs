@@ -13,8 +13,21 @@ namespace Service.Helpers.Extensions
         {
             if (!email.Contains("@"))
             {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Email must contain '@'");
+                ConsoleColor.DarkRed.ConsoleWriteLine("Email must contain '@', try again");
                 return false;
+            }
+            int count = 0;
+            foreach (char c in email)
+            {
+                if (c == '@')
+                {
+                    count++;
+                }
+                if(count > 1)
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Invalid email format, try again");
+                    return false;
+                }
             }
             return true;
         }
