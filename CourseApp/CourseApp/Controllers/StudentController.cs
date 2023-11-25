@@ -76,7 +76,7 @@ namespace CourseApp.Controllers
                     ConsoleColor.DarkRed.ConsoleWriteLine("Address is required!");
                     goto Address;
                 }
-                Console.WriteLine("Enter student Age: ");
+                Console.WriteLine("Enter student age: ");
                 Age: string ageStr = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(ageStr))
                 {

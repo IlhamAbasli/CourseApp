@@ -1,5 +1,8 @@
 ﻿using CourseApp.Controllers;
 using Service.Enums;
+using Service.Helpers.Extensions;
+using Spectre.Console;
+using System.Xml;
 
 AccountController accountController = new AccountController();
 GroupController groupController = new GroupController();
@@ -7,7 +10,7 @@ StudentController studentController = new StudentController();
 
 while (true)
 {
-    Console.WriteLine("Login (1) or Sign Up (2)");
+    ConsoleColor.DarkYellow.ConsoleWriteLine("Login (1) or Sign Up (2)");
     string operationStr = Console.ReadLine();
 
     bool IsCorrectOperation = int.TryParse(operationStr, out int operation);
@@ -26,9 +29,10 @@ while (true)
 }
 
 Menu:
-Console.WriteLine("Welcome our application");
+Console.Clear();
 while (true)
 {
+    AnsiConsole.Write(new FigletText("Welcome to our application").Centered().Color(Color.Lime));
     Menu();
     Operation: string appOperationStr = Console.ReadLine();
     bool IsCorrectOperation = int.TryParse(appOperationStr, out int appOperation);

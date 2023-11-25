@@ -38,12 +38,16 @@ namespace Service.Helpers.Extensions
         }
         public static bool CheckAge(this string text)
         {
-            if (Regex.IsMatch(text, "^\\s*(0?[1-9]|1[0-7])\\s*$"))
+            if (Regex.IsMatch(text, @"\s"))
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine("Age format is wrong");
+                return false;
+            }
+            else
             {
                 return true;
             }
-            ConsoleColor.DarkRed.ConsoleWriteLine("Age format is wrong");
-            return false;
+
         }
     }
 }

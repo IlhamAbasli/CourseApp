@@ -141,13 +141,6 @@ namespace CourseApp.Controllers
                 ConsoleColor.DarkRed.ConsoleWriteLine("Email or password is wrong, try again enter your email");
                 goto Email;
             }
-            else
-            {
-                Console.Clear();
-                ConsoleColor.Green.ConsoleWriteLine("Login successfull");
-            }
-
-
         }
     }
 }

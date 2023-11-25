@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Bm1BhBStJV1nMHWEz8FPmQmt48f73Tk/kS31q23lydratJESsl4QSI6QGwD7mwNqbu6CLeYhVdL875VA64AZdA==",
+  "dgSpecHash": "jFlph0oOXOjxjjgYQ0AnjMyQo/4yjmfiLUvrJf4EbXKwwcrxJKLSnzx2YUoE92gorVq2EsNApye0JqyonGKbsQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Ilham\\OneDrive\\Masaüstü\\CourseApp\\CourseApp\\Service\\Service.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Ilham\\.nuget\\packages\\spectre.console\\0.48.0\\spectre.console.0.48.0.nupkg.sha512",
+    "C:\\Users\\Ilham\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512"
+  ],
   "logs": []
 }
