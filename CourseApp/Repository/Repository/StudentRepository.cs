@@ -11,6 +11,34 @@ namespace Repository.Repository
 {
     public class StudentRepository : BaseRepository<Student>, IStudentRepository
     {
+        public void Edit(int id, Student student)
+        {
+            var res = GetById(id);
+            if (res != null)
+            {
+                if (!string.IsNullOrWhiteSpace(student.FullName))
+                {
+                    res.FullName = student.FullName;
+                }
+                if (!string.IsNullOrWhiteSpace(student.Address))
+                {
+                    res.Address = student.Address;
+                }
+                if (!string.IsNullOrWhiteSpace(student.Phone))
+                {
+                    res.Phone = student.Phone;
+                }
+                if (student.Age != 0)
+                {
+                    res.Age = student.Age;
+                }
+                if (student.Group != null)
+                {
+                    res.Group = student.Group;
+                }
+            }
+        }
+
         public List<Student> Search(string searchText)
         {
             return AppDbContext<Student>.Datas.Where(x => x.FullName.ToLower().Trim().Contains(searchText.ToLower().Trim())).ToList();

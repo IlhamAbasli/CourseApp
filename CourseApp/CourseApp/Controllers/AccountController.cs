@@ -28,6 +28,10 @@ namespace CourseApp.Controllers
                 ConsoleColor.DarkRed.ConsoleWriteLine("First name is required!");
                 goto FirstName;
             }
+            if(!NameExtension.CheckFirstName(firstName))
+            {
+                goto FirstName;
+            }
 
             Console.WriteLine("Last name: ");
             LastName: string lastName = Console.ReadLine();
@@ -37,6 +41,10 @@ namespace CourseApp.Controllers
                 ConsoleColor.DarkRed.ConsoleWriteLine("Last name is required!");
                 goto LastName;
             }
+            if (!NameExtension.CheckLastName(lastName))
+            {
+                goto LastName;
+            }
 
             Console.WriteLine("Age: ");
             Age: string ageStr = Console.ReadLine();
@@ -44,6 +52,10 @@ namespace CourseApp.Controllers
             if (string.IsNullOrWhiteSpace(ageStr))
             {
                 ConsoleColor.DarkRed.ConsoleWriteLine("Age is required!");
+                goto Age;
+            }
+            if (!NameExtension.CheckAge(ageStr))
+            {
                 goto Age;
             }
             bool IsCorrectType = byte.TryParse(ageStr, out byte age);
@@ -63,10 +75,6 @@ namespace CourseApp.Controllers
             }else if (!email.CheckAtInEmail())
             {
                 goto Email;
-            }
-            else
-            {
-                email.CheckAtInEmail();
             }
             
 
@@ -88,7 +96,7 @@ namespace CourseApp.Controllers
             }
             if (!password.ConfirmPassword(confirmPassword))
             {
-                goto ConfirmationPassword;
+                goto Password;
             }
 
             
@@ -111,10 +119,6 @@ namespace CourseApp.Controllers
             else if (!email.CheckAtInEmail())
             {
                 goto Email;
-            }
-            else
-            {
-                email.CheckAtInEmail();
             }
 
             Console.WriteLine("Enter your password");

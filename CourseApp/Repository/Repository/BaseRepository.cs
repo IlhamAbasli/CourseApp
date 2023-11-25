@@ -34,16 +34,6 @@ namespace Repository.Repository
             return result;
         }
 
-        public T Edit(int id)
-        {
-            var res = GetById(id);  
-            if(res != null)
-            {
-                return res;
-            }
-            return null;
-        }
-
         public List<T> GetAll()
         {
             return AppDbContext<T>.Datas.ToList();

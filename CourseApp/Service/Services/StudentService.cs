@@ -30,30 +30,7 @@ namespace Service.Services
 
         public void Edit(int id, Student student)
         {
-            var res = _studentRepository.Edit(id);
-            if(res != null)
-            {
-                if(!string.IsNullOrWhiteSpace(student.FullName))
-                {
-                    res.FullName = student.FullName;
-                }
-                if (!string.IsNullOrWhiteSpace(student.Address))
-                {
-                    res.Address = student.Address;
-                }
-                if (!string.IsNullOrWhiteSpace(student.Phone))
-                {
-                    res.Phone = student.Phone;
-                }
-                if(student.Age != 0)
-                {
-                    res.Age = student.Age;
-                }
-                if(student.Group != null)
-                {
-                    res.Group = student.Group;
-                }
-            }
+            
         } 
 
         public List<Student> GetAll()

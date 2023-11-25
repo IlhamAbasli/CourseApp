@@ -40,7 +40,8 @@ namespace CourseApp.Controllers
                 var res = _groupService.GetById(groupId);
                 if (res == null)
                 {
-                    throw new DataNotFoundException(ExceptionMessages.GroupNotFoundWithId);
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Group not found");
+                    goto GroupId;
                 }
                 else if (_studentService.GetAll().Count >= res.Capacity)
                 {
@@ -63,6 +64,10 @@ namespace CourseApp.Controllers
                     ConsoleColor.DarkRed.ConsoleWriteLine("Fullname is required!");
                     goto Name;
                 }
+                if (!NameExtension.CheckFullName(fullName))
+                {
+                    goto Name;
+                }
 
                 Console.WriteLine("Enter student address: ");
                 Address: string address = Console.ReadLine();
@@ -76,6 +81,10 @@ namespace CourseApp.Controllers
                 if (string.IsNullOrWhiteSpace(ageStr))
                 {
                     ConsoleColor.DarkRed.ConsoleWriteLine("Age is required!");
+                    goto Age;
+                }
+                if (!NameExtension.CheckAge(ageStr))
+                {
                     goto Age;
                 }
                 bool IsCorrectType = byte.TryParse(ageStr, out byte age);
@@ -100,6 +109,10 @@ namespace CourseApp.Controllers
                     {
                         ConsoleColor.DarkRed.ConsoleWriteLine("Phone number is required!");
                         goto Phone;
+                    }
+                    if(Regex.IsMatch(phoneNumber, @"\s"))
+                    {
+                        throw new WrongFormatException(ExceptionMessages.WrongPhoneNumberFormat);
                     }
                     if (Regex.IsMatch(phoneNumber, "[a-zA-Z]"))
                     {
@@ -159,9 +172,11 @@ namespace CourseApp.Controllers
                 return;
             }
             Console.Clear();
+            int row = 0;
             foreach (var student in res)
             {
-                Console.WriteLine($"**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}");
+                string students = $"\n{++row}.\n**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
+                ConsoleColor.DarkYellow.ConsoleWriteLine(students);
             }
         }
 
@@ -184,13 +199,14 @@ namespace CourseApp.Controllers
                 goto ID;
             }
 
-            Console.WriteLine($"**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}");
+            string data = $"\n**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
+            ConsoleColor.DarkYellow.ConsoleWriteLine(data);
         }
 
         public void Search()
         {
             Console.Clear();
-            Console.WriteLine("Enter group name:");
+            Console.WriteLine("Enter student name:");
             string studentName = Console.ReadLine();
 
             var res = _studentService.Search(studentName);
@@ -200,10 +216,10 @@ namespace CourseApp.Controllers
                 ConsoleColor.DarkRed.ConsoleWriteLine("Student not found");
                 return;
             }
-
+            int row = 0;
             foreach (var student in res)
             {
-                Console.WriteLine($"**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}");
+                Console.WriteLine($"{++row}.\n**Student fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}");
             }
         }
 
@@ -211,16 +227,18 @@ namespace CourseApp.Controllers
         {
             var res = _studentService.Sort();
             Console.Clear();
+            int row = 0;
             foreach (var student in res)
             {
-                Console.WriteLine($"**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}");
+                string students = $"\n{++row}.\n**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
+                ConsoleColor.DarkYellow.ConsoleWriteLine(students);
             }
         }
 
         public void Edit()
         {
             Console.Clear();
-            Console.WriteLine("Enter student ID of the group you want to edit: ");
+            Console.WriteLine("Enter student ID you want to edit: ");
             Id: string studentID = Console.ReadLine();
 
             bool IsCorrectFormat = int.TryParse(studentID, out int id);
@@ -234,10 +252,18 @@ namespace CourseApp.Controllers
                 }
                 if (student is not null)
                 {
-                    Console.WriteLine($"**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}");
+                    string data = $"\n**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
+                    ConsoleColor.DarkMagenta.ConsoleWriteLine(data);
 
                     Console.WriteLine("Enter student full name for change:");
-                    string fullName = Console.ReadLine();
+                    FullName: string fullName = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(fullName))
+                    {
+                        if (!NameExtension.CheckFullName(fullName))
+                        {
+                            goto FullName;
+                        }
+                    }
 
                     Console.WriteLine("Enter student address for change:");
                     string address = Console.ReadLine();
@@ -248,7 +274,11 @@ namespace CourseApp.Controllers
 
                     Console.WriteLine("Enter student phone number for change:");
                     Phone: string phoneNumber = Console.ReadLine();
-
+                    if (Regex.IsMatch(phoneNumber, @"\s"))
+                    {
+                        ConsoleColor.DarkRed.ConsoleWriteLine("Invalid phone number format");
+                        goto Phone;
+                    }
                     if (Regex.IsMatch(phoneNumber, "[a-zA-Z]"))
                     {
                         ConsoleColor.DarkRed.ConsoleWriteLine("Invalid phone number format");

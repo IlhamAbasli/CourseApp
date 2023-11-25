@@ -79,8 +79,8 @@ namespace CourseApp.Controllers
                 int row = 0;
                 foreach (var group in res)
                 {
-                    row++;
-                    Console.WriteLine($"\n**{row}.\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                    string groups = $"\n**{++row}.\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}";
+                    ConsoleColor.DarkGreen.ConsoleWriteLine(groups);
                 }
             }
             catch (DataNotFoundException ex)
@@ -133,10 +133,11 @@ namespace CourseApp.Controllers
                 {
                     throw new DataNotFoundException("Group not found");
                 }
-
+                int row = 0;
                 foreach (var group in res)
                 {
-                    Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                    string groups = $"\n**{++row}.\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}";
+                    ConsoleColor.DarkGreen.ConsoleWriteLine(groups);
                 }
             }
             catch (DataNotFoundException ex)
@@ -162,7 +163,8 @@ namespace CourseApp.Controllers
                 {
                     throw new DataNotFoundException(ExceptionMessages.GroupNotFoundWithId);
                 }
-                Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                string data = $"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}";
+                ConsoleColor.DarkGreen.ConsoleWriteLine(data);
             }
             catch (Exception ex)
             {
@@ -181,9 +183,11 @@ namespace CourseApp.Controllers
                     throw new DataNotFoundException(ExceptionMessages.EmptyListMessage);
                 }
                 Console.Clear();
+                int row = 0;
                 foreach (var group in res)
                 {
-                    Console.WriteLine($"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}");
+                    string groups = $"\n**{++row}.\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}";
+                    ConsoleColor.DarkGreen.ConsoleWriteLine(groups);
                 }
             }
             catch (DataNotFoundException ex)

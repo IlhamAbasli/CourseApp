@@ -21,6 +21,21 @@ namespace Repository.Repository
         {
             return AppDbContext<Group>.Datas.OrderBy(x => x.Capacity).ToList();
         }
+        public void Edit(int id, Group group)
+        {
+            var res = GetById(id);
+            if (res != null)
+            {
+                if (!string.IsNullOrWhiteSpace(group.Name))
+                {
+                    res.Name = group.Name;
+                }
+                if (group.Capacity != 0)
+                {
+                    res.Capacity = group.Capacity;
+                }
+            }
+        }
 
         
     }

@@ -29,19 +29,7 @@ namespace Service.Services
 
         public void Edit(int id, Group group)
         {
-            var res = _groupRepository.Edit(id);
-            if (res != null)
-            {
-                if (!string.IsNullOrWhiteSpace(group.Name))
-                {
-                    res.Name = group.Name;
-                }
-                if (group.Capacity != 0)
-                {
-                    res.Capacity = group.Capacity;
-                }
-            }
-
+            _groupRepository.Edit(id, group);
         }
 
         public List<Group> GetAll()

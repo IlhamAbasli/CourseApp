@@ -11,23 +11,11 @@ namespace Service.Helpers.Extensions
     {
         public static bool CheckAtInEmail(this string email)
         {
-            if (!email.Contains("@"))
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            if (!regex.IsMatch(email))
             {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Email must contain '@', try again");
+                ConsoleColor.DarkRed.ConsoleWriteLine("Invalid email format, try again");
                 return false;
-            }
-            int count = 0;
-            foreach (char c in email)
-            {
-                if (c == '@')
-                {
-                    count++;
-                }
-                if(count > 1)
-                {
-                    ConsoleColor.DarkRed.ConsoleWriteLine("Invalid email format, try again");
-                    return false;
-                }
             }
             return true;
         }
@@ -37,7 +25,7 @@ namespace Service.Helpers.Extensions
         {
             if(password != confirmPassword)
             {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Passwords don't match");
+                ConsoleColor.DarkRed.ConsoleWriteLine("Passwords don't match, enter password again");
                 return false;
             }
             return true;

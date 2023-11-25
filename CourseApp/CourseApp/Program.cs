@@ -5,28 +5,28 @@ AccountController accountController = new AccountController();
 GroupController groupController = new GroupController();
 StudentController studentController = new StudentController();
 
-while (true)
-{
-    Console.WriteLine("Login (1) or Sign Up (2)");
-    string operationStr = Console.ReadLine();
+//while (true)
+//{
+//    Console.WriteLine("Login (1) or Sign Up (2)");
+//    string operationStr = Console.ReadLine();
 
-    bool IsCorrectOperation = int.TryParse(operationStr, out int operation);
+//    bool IsCorrectOperation = int.TryParse(operationStr, out int operation);
 
-    switch (operation)
-    {
-        case (int)AuthenticationTypes.Login:
-            accountController.Login();
-            goto Menu;
+//    switch (operation)
+//    {
+//        case (int)AuthenticationTypes.Login:
+//            accountController.Login();
+//            goto Menu;
 
-        case (int)AuthenticationTypes.Register:
-            accountController.Register();
-            break;
-    }
+//        case (int)AuthenticationTypes.Register:
+//            accountController.Register();
+//            break;
+//    }
 
-}
+//}
 
-Menu:
-Console.WriteLine("Welcome our application");
+//Menu:
+//Console.WriteLine("Welcome our application");
 while (true)
 {
     Menu();
@@ -91,5 +91,5 @@ while (true)
 
 static void Menu()
 {
-    Console.WriteLine("\nChoose one option:\nGroup operations:\n(1) Create group\n(2) Delete group\n(3) Edit group\n(4) Get group by ID\n(5) Show all groups\n(6) Search groups\n(7) Sort groups\n\n**********************************\n\n(8) Add student\n(9) Delete student\n(10) Edit student\n(11) Get student by ID\n(12) Show all students\n(13) Search students\n(14) Sort students");
+    Console.WriteLine("\nChoose one option:\n*Group operations:\n(1) Create group\n(2) Delete group\n(3) Edit group\n(4) Get group by ID\n(5) Show all groups\n(6) Search groups\n(7) Sort groups\n\n**********************************\n\n*Student operations:\n(8) Add student\n(9) Delete student\n(10) Edit student\n(11) Get student by ID\n(12) Show all students\n(13) Search students\n(14) Sort students");
 }
