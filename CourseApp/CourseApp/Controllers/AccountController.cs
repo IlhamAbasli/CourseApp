@@ -59,6 +59,11 @@ namespace CourseApp.Controllers
                 goto Age;
             }
             bool IsCorrectType = byte.TryParse(ageStr, out byte age);
+            if (age > 65)
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine("Age is too high");
+                goto Age;
+            }
             if (!IsCorrectType)
             {
                 ConsoleColor.DarkRed.ConsoleWriteLine("Age format is wrong please enter correct format: ");

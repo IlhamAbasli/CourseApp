@@ -30,7 +30,7 @@ namespace Service.Services
 
         public void Edit(int id, Student student)
         {
-            
+            _studentRepository.Edit(id, student);
         } 
 
         public List<Student> GetAll()

@@ -38,7 +38,7 @@ namespace Service.Helpers.Extensions
         }
         public static bool CheckAge(this string text)
         {
-            if (Regex.IsMatch(text, "^(1[8-9]|[2-9]\\d|\\d{3,})$"))
+            if (Regex.IsMatch(text, "^\\s*(0?[1-9]|1[0-7])\\s*$"))
             {
                 return true;
             }

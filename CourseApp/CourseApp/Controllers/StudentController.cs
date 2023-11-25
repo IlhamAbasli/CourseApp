@@ -88,6 +88,11 @@ namespace CourseApp.Controllers
                     goto Age;
                 }
                 bool IsCorrectType = byte.TryParse(ageStr, out byte age);
+                if(age > 65)
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Age is too high");
+                    goto Age;
+                }
                 try
                 { 
                     if (!IsCorrectType)
@@ -175,7 +180,7 @@ namespace CourseApp.Controllers
             int row = 0;
             foreach (var student in res)
             {
-                string students = $"\n{++row}.\n**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
+                string students = $"\n{++row}.\n**Student fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
                 ConsoleColor.DarkYellow.ConsoleWriteLine(students);
             }
         }
@@ -252,7 +257,7 @@ namespace CourseApp.Controllers
                 }
                 if (student is not null)
                 {
-                    string data = $"\n**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
+                    string data = $"\n**Student fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
                     ConsoleColor.DarkMagenta.ConsoleWriteLine(data);
 
                     Console.WriteLine("Enter student full name for change:");

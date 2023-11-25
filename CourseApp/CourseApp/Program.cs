@@ -5,28 +5,28 @@ AccountController accountController = new AccountController();
 GroupController groupController = new GroupController();
 StudentController studentController = new StudentController();
 
-//while (true)
-//{
-//    Console.WriteLine("Login (1) or Sign Up (2)");
-//    string operationStr = Console.ReadLine();
+while (true)
+{
+    Console.WriteLine("Login (1) or Sign Up (2)");
+    string operationStr = Console.ReadLine();
 
-//    bool IsCorrectOperation = int.TryParse(operationStr, out int operation);
+    bool IsCorrectOperation = int.TryParse(operationStr, out int operation);
 
-//    switch (operation)
-//    {
-//        case (int)AuthenticationTypes.Login:
-//            accountController.Login();
-//            goto Menu;
+    switch (operation)
+    {
+        case (int)AuthenticationTypes.Login:
+            accountController.Login();
+            goto Menu;
 
-//        case (int)AuthenticationTypes.Register:
-//            accountController.Register();
-//            break;
-//    }
+        case (int)AuthenticationTypes.Register:
+            accountController.Register();
+            break;
+    }
 
-//}
+}
 
-//Menu:
-//Console.WriteLine("Welcome our application");
+Menu:
+Console.WriteLine("Welcome our application");
 while (true)
 {
     Menu();

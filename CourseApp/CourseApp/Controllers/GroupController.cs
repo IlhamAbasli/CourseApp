@@ -203,9 +203,9 @@ namespace CourseApp.Controllers
             Console.Clear();
             Console.WriteLine("Enter group ID of the group you want to edit: ");
             Id: string groupID = Console.ReadLine();
+            bool IsCorrectFormat = int.TryParse(groupID, out int id);
             try
             {
-                bool IsCorrectFormat = int.TryParse(groupID, out int id);
                 if (IsCorrectFormat)
                 {
                     var res = _groupService.GetById(id);
@@ -215,14 +215,15 @@ namespace CourseApp.Controllers
                     }
                     if (res is not null)
                     {
-                        Console.WriteLine($"\n**Group name: {res.Name}\n**Group capacity: {res.Capacity}");
+                        string data = $"\n**Group name: {res.Name}\n**Group capacity: {res.Capacity}";
+                        ConsoleColor.DarkGreen.ConsoleWriteLine(data);
 
                         Console.WriteLine("Enter group name for change:");
                         Name: string name = Console.ReadLine();
                         var groups = _groupService.GetAll();
                         foreach (var group in groups)
                         {
-                            if (group.Name == name)
+                            if (group.Name.ToLower() == name.ToLower())
                             {
                                 Console.WriteLine("Group name has already exist");
                                 goto Name;
@@ -230,7 +231,7 @@ namespace CourseApp.Controllers
                         }
 
                         Console.WriteLine("Enter group capacity for change:");
-                        string? capacityStr = Console.ReadLine();
+                        string capacityStr = Console.ReadLine();
                         bool isCorrect = int.TryParse(capacityStr, out int capacity);
 
                         _groupService.Edit(id, new Group { Name = name, Capacity = capacity });
