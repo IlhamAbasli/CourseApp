@@ -1,4 +1,5 @@
 ﻿using CourseApp.Controllers;
+using Domain.Models;
 using Service.Enums;
 using Service.Helpers.Extensions;
 using Spectre.Console;
@@ -29,10 +30,38 @@ while (true)
     }
 
 }
-
 Menu:
 Console.Clear();
-AnsiConsole.Write(new FigletText("Welcome to our application").Centered().Color(Color.Lime));
+Console.ForegroundColor = ConsoleColor.Yellow;
+int width = Console.WindowWidth;
+int height = Console.WindowHeight;
+
+string message = "WELCOME TO MY APPLICATION!";
+
+
+int x = (width - message.Length) / 2;
+int y = height / 2;
+
+
+Console.SetCursorPosition(x, y);
+Console.WriteLine(message);
+
+int num = 1;
+
+while (true)
+{
+    num = (num % 9) + 1;
+    System.Threading.Thread.Sleep(1000);
+    if (num == 4)
+    {
+        Console.Clear();
+        break;
+    }
+}
+
+Console.Clear();
+AnsiConsole.Write(new FigletText("Classroom").Centered().Color(Color.Lime));
+AnsiConsole.Write(new FigletText("application").Centered().Color(Color.Lime));
 while (true)
 {
     Menu();
@@ -97,5 +126,7 @@ while (true)
 
 static void Menu()
 {
-    Console.WriteLine("\nChoose one option:\n*Group operations:\n(1) Create group\n(2) Delete group\n(3) Edit group\n(4) Get group by ID\n(5) Show all groups\n(6) Search groups\n(7) Sort groups\n\n**********************************\n\n*Student operations:\n(8) Add student\n(9) Delete student\n(10) Edit student\n(11) Get student by ID\n(12) Show all students\n(13) Search students\n(14) Sort students");
+    ConsoleColor.DarkBlue.ConsoleWriteLine("\nChoose one option:\n*Group operations:\n(1) Create group\n(2) Delete group\n(3) Edit group\n(4) Get group by ID\n(5) Show all groups\n(6) Search groups\n(7) Sort groups");
+    ConsoleColor.DarkRed.ConsoleWriteLine("\n***********************************\n");
+    ConsoleColor.DarkGreen.ConsoleWriteLine("*Student operations:\n(8) Add student\n(9) Delete student\n(10) Edit student\n(11) Get student by ID\n(12) Show all students\n(13) Search students\n(14) Sort students");
 }

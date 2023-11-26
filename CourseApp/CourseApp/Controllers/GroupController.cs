@@ -69,6 +69,9 @@ namespace CourseApp.Controllers
                 ConsoleColor.DarkRed.ConsoleWriteLine($"{ex.Message}");
                 goto Capacity;
             }
+            Console.Clear();
+            ConsoleColor.Green.ConsoleWriteLine("Group successfully created");
+
         }
 
         public void GetAll()
@@ -166,7 +169,8 @@ namespace CourseApp.Controllers
                 var group = _groupService.GetById(id);
                 if (group == null)
                 {
-                    throw new DataNotFoundException(ExceptionMessages.GroupNotFoundWithId);
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Group not found with this ID");
+                    return;
                 }
                 string data = $"\n**Group name: {group.Name}\n**Group capacity: {group.Capacity}";
                 ConsoleColor.DarkGreen.ConsoleWriteLine(data);

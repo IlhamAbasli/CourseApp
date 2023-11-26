@@ -28,11 +28,11 @@ namespace Repository.Repository
                 {
                     res.Phone = student.Phone;
                 }
-                if (student.Age is not null)
+                if (student.Age is not 0)
                 {
                     res.Age = student.Age;
                 }
-                if (student.Group != null)
+                if (student.Group is not null)
                 {
                     res.Group = student.Group;
                 }

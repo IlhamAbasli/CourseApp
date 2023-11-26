@@ -11,7 +11,7 @@ namespace Service.Helpers.Extensions
     {
         public static bool CheckFirstName(this string text)
         {
-            if (Regex.IsMatch(text, "^[A-Z][a-zA-Z]*$"))
+            if (Regex.IsMatch(text, @"^[A-Z][a-zA-Z]*$"))
             {
                 return true;
             }
@@ -20,7 +20,7 @@ namespace Service.Helpers.Extensions
         }
         public static bool CheckLastName(this string text)
         {
-            if (Regex.IsMatch(text, "^[A-Z][a-zA-Z]*$"))
+            if (Regex.IsMatch(text, @"^[A-Z][a-zA-Z]*$"))
             {
                 return true;
             }
@@ -29,7 +29,7 @@ namespace Service.Helpers.Extensions
         }
         public static bool CheckFullName(this string text)
         {
-            if (Regex.IsMatch(text, "^[A-Z]\\w+( [A-Z]\\w+)+"))
+            if (Regex.IsMatch(text, @"^[A-Z][a-z]{1,}[ ][A-Z][a-z]{1,}$"))
             {
                 return true;
             }

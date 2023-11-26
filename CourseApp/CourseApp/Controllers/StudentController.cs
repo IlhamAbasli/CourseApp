@@ -30,7 +30,7 @@ namespace CourseApp.Controllers
         public void Create()
         {
             Console.Clear();
-            Console.WriteLine("*Enter required datas of student*");
+            ConsoleColor.DarkCyan.ConsoleWriteLine("*Enter required datas of student*");
             Console.WriteLine("\nWhich group do you want to add this student?");
             GroupId: string groupIdStr = Console.ReadLine();
             bool IsCorrectFormat = int.TryParse(groupIdStr, out int groupId);
@@ -46,7 +46,7 @@ namespace CourseApp.Controllers
                 var res = _groupService.GetById(groupId);
                 if (res == null)
                 {
-                    ConsoleColor.DarkRed.ConsoleWriteLine("Group not found");
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Group not found with this ID,try again");
                     goto GroupId;
                 }
                 else if (_studentService.GetAll().Count >= res.Capacity)
@@ -102,20 +102,19 @@ namespace CourseApp.Controllers
                     ConsoleColor.DarkRed.ConsoleWriteLine("Age is required!");
                     goto Age;
                 }
-                if (!NameExtension.CheckAge(ageStr))
+                else
                 {
-                    goto Age;
+                    if (!NameExtension.CheckAge(ageStr))
+                    {
+                        goto Age;
+                    }
+                    if (age > 70 || age < 18)
+                    {
+                        ConsoleColor.DarkRed.ConsoleWriteLine("Age must be between 18 and 70");
+                        goto Age;
+                    }
                 }
-                if (age > 70 || age < 18)
-                {
-                    ConsoleColor.DarkRed.ConsoleWriteLine("Age must be between 18-70");
-                    goto Age;
-                }
-                if (age == 0)
-                {
-                    ConsoleColor.DarkRed.ConsoleWriteLine("Age cant be zero");
-                    goto Age;
-                }
+                
 
                 Console.WriteLine("Enter student phone number");
                 Phone: string phoneNumber = Console.ReadLine();
@@ -142,6 +141,7 @@ namespace CourseApp.Controllers
                 }
 
                 _studentService.Create(new Student { FullName = fullName, Phone = phoneNumber, Address = address, Age = age, Group = res });
+                Console.Clear();    
                 ConsoleColor.Green.ConsoleWriteLine("Student successfully created");
             }
             catch (DataNotFoundException ex)
@@ -170,10 +170,12 @@ namespace CourseApp.Controllers
             }
             if (!_studentService.Delete(id))
             {
+                Console.Clear();
                 ConsoleColor.Red.ConsoleWriteLine("Student not found with this ID");
             }
             else
             {
+                Console.Clear();
                 ConsoleColor.Green.ConsoleWriteLine("Student successfully deleted");
             }
         }
@@ -211,11 +213,12 @@ namespace CourseApp.Controllers
 
             if (student == null)
             {
+                Console.Clear();
                 ConsoleColor.DarkRed.ConsoleWriteLine("Student not found with this ID");
-                goto ID;
+                return;
             }
-
-            string data = $"\n**Student Fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
+            Console.Clear();
+            string data = $"\n**Student fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}";
             ConsoleColor.DarkYellow.ConsoleWriteLine(data);
         }
 
@@ -229,10 +232,12 @@ namespace CourseApp.Controllers
 
             if (res.Count == 0)
             {
+                Console.Clear();
                 ConsoleColor.DarkRed.ConsoleWriteLine("Student not found");
                 return;
             }
             int row = 0;
+            Console.Clear();
             foreach (var student in res)
             {
                 Console.WriteLine($"{++row}.\n**Student fullname: {student.FullName}\n**Student address: {student.Address}\n**Student age: {student.Age}\n**Student phone number: {student.Phone}\n**Student group: {student.Group.Name}");
@@ -263,7 +268,7 @@ namespace CourseApp.Controllers
                 var student = _studentService.GetById(id);
                 if (student == null)
                 {
-                    Console.WriteLine("Student not found with this ID,try again");
+                    Console.WriteLine("Student not found with this ID");
                     
                 }
                 if (student is not null)
@@ -286,21 +291,30 @@ namespace CourseApp.Controllers
 
                     Console.WriteLine("Enter student age for change:");
                     Age: string ageStr = Console.ReadLine();
-                    bool isCorrect = byte.TryParse(ageStr, out byte age);
-                    if(!string.IsNullOrWhiteSpace(ageStr))
+                    byte age = 0;
+                    
+                    if (!string.IsNullOrWhiteSpace(ageStr))
                     {
+                        bool isCorrect = byte.TryParse(ageStr, out age);
+                        try
+                        {
+                            if (!isCorrect)
+                            {
+                                throw new WrongFormatException(ExceptionMessages.WrongAgeFormat);
+                            }
+                        }
+                        catch (WrongFormatException ex)
+                        {
+                            ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
+                            goto Age;
+                        }
                         if (!NameExtension.CheckAge(ageStr))
                         {
                             goto Age;
                         }
-                        if (age > 70 && age < 18)
+                        if (age > 70 || age < 18)
                         {
                             ConsoleColor.DarkRed.ConsoleWriteLine("Age must be between 18 and 70");
-                            goto Age;
-                        }
-                        if (age == 0)
-                        {
-                            ConsoleColor.DarkRed.ConsoleWriteLine("Age cant be zero");
                             goto Age;
                         }
                     }
@@ -332,7 +346,9 @@ namespace CourseApp.Controllers
                             goto GroupId;
                         }
                     }
+
                     _studentService.Edit(id, new Student { FullName = fullName, Address = address, Age = age, Phone = phoneNumber, Group = res });
+                  
                     ConsoleColor.Green.ConsoleWriteLine("Stuent successfully edited");
                 }
             }
