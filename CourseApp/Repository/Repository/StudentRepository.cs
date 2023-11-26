@@ -28,7 +28,7 @@ namespace Repository.Repository
                 {
                     res.Phone = student.Phone;
                 }
-                if (student.Age != 0)
+                if (student.Age is not null)
                 {
                     res.Age = student.Age;
                 }

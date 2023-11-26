@@ -37,6 +37,12 @@ namespace CourseApp.Controllers
             try
             {
                 Student student = new Student();
+                var groups = _groupService.GetAll();
+                if (groups.Count == 0)
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("There is no group in system, create a group first");
+                    return;
+                }
                 var res = _groupService.GetById(groupId);
                 if (res == null)
                 {
@@ -78,6 +84,19 @@ namespace CourseApp.Controllers
                 }
                 Console.WriteLine("Enter student age: ");
                 Age: string ageStr = Console.ReadLine();
+                bool IsCorrectType = byte.TryParse(ageStr, out byte age);
+                try
+                {
+                    if (!IsCorrectType)
+                    {
+                        throw new WrongFormatException(ExceptionMessages.WrongAgeFormat);
+                    }
+                }
+                catch (WrongFormatException ex)
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
+                    goto Age;
+                }
                 if (string.IsNullOrWhiteSpace(ageStr))
                 {
                     ConsoleColor.DarkRed.ConsoleWriteLine("Age is required!");
@@ -87,22 +106,14 @@ namespace CourseApp.Controllers
                 {
                     goto Age;
                 }
-                bool IsCorrectType = byte.TryParse(ageStr, out byte age);
-                if(age > 65)
+                if (age > 70 || age < 18)
                 {
-                    ConsoleColor.DarkRed.ConsoleWriteLine("Age is too high");
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Age must be between 18-70");
                     goto Age;
                 }
-                try
-                { 
-                    if (!IsCorrectType)
-                    {
-                        throw new WrongFormatException(ExceptionMessages.WrongAgeFormat);
-                    }
-                }
-                catch (WrongFormatException ex)
+                if (age == 0)
                 {
-                    ConsoleColor.DarkRed.ConsoleWriteLine(ex.Message);
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Age cant be zero");
                     goto Age;
                 }
 
@@ -253,7 +264,7 @@ namespace CourseApp.Controllers
                 if (student == null)
                 {
                     Console.WriteLine("Student not found with this ID,try again");
-                    goto Id;
+                    
                 }
                 if (student is not null)
                 {
@@ -274,8 +285,27 @@ namespace CourseApp.Controllers
                     string address = Console.ReadLine();
 
                     Console.WriteLine("Enter student age for change:");
-                    string ageStr = Console.ReadLine();
+                    Age: string ageStr = Console.ReadLine();
                     bool isCorrect = byte.TryParse(ageStr, out byte age);
+                    if(!string.IsNullOrWhiteSpace(ageStr))
+                    {
+                        if (!NameExtension.CheckAge(ageStr))
+                        {
+                            goto Age;
+                        }
+                        if (age > 70 && age < 18)
+                        {
+                            ConsoleColor.DarkRed.ConsoleWriteLine("Age must be between 18 and 70");
+                            goto Age;
+                        }
+                        if (age == 0)
+                        {
+                            ConsoleColor.DarkRed.ConsoleWriteLine("Age cant be zero");
+                            goto Age;
+                        }
+                    }
+
+
 
                     Console.WriteLine("Enter student phone number for change:");
                     Phone: string phoneNumber = Console.ReadLine();
@@ -302,9 +332,8 @@ namespace CourseApp.Controllers
                             goto GroupId;
                         }
                     }
-
-                    _studentService.Edit(id,new Student { FullName = fullName, Address = address, Age = age, Phone = phoneNumber, Group = res });
-                    ConsoleColor.Green.ConsoleWriteLine("Group successfully edited");
+                    _studentService.Edit(id, new Student { FullName = fullName, Address = address, Age = age, Phone = phoneNumber, Group = res });
+                    ConsoleColor.Green.ConsoleWriteLine("Stuent successfully edited");
                 }
             }
             if (!IsCorrectFormat)

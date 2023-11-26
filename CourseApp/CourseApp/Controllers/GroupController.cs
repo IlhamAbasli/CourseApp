@@ -56,6 +56,11 @@ namespace CourseApp.Controllers
                 {
                     throw new WrongFormatException("Capacity format is wrong, enter correct format");
                 }
+                if(capacity < 0)
+                {
+                    ConsoleColor.DarkRed.ConsoleWriteLine("Capacity cannot be negative");
+                    goto Capacity;
+                }
 
                 _groupService.Create(new Group { Name = groupName, Capacity = capacity });
             }
@@ -219,7 +224,7 @@ namespace CourseApp.Controllers
                         ConsoleColor.DarkGreen.ConsoleWriteLine(data);
 
                         Console.WriteLine("Enter group name for change:");
-                    Name: string name = Console.ReadLine();
+                        Name: string name = Console.ReadLine();
                         var groups = _groupService.GetAll();
                         foreach (var group in groups)
                         {
@@ -231,14 +236,24 @@ namespace CourseApp.Controllers
                         }
 
                         Console.WriteLine("Enter group capacity for change:");
-                        string capacityStr = Console.ReadLine();
+                        Capacity: string capacityStr = Console.ReadLine();
                         if (!string.IsNullOrWhiteSpace(capacityStr))
                         {
                             int capacity;
                             bool isCorrect = int.TryParse(capacityStr, out capacity);
+                            if(!isCorrect)
+                            {
+                                ConsoleColor.DarkRed.ConsoleWriteLine("Capacity format is wrong");
+                                goto Capacity;
+                            }
+                            if (capacity < 0)
+                            {
+                                ConsoleColor.DarkRed.ConsoleWriteLine("Capacity cannot be negative");
+                                goto Capacity;
+                            }
                             _groupService.Edit(id, new Group { Name = name, Capacity = capacity});
-
                         }
+                        Console.Clear();
                         ConsoleColor.Green.ConsoleWriteLine("Group successfully edited");
                     }
                 }

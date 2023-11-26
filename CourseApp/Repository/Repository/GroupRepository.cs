@@ -14,7 +14,7 @@ namespace Repository.Repository
 
         public List<Group> Search(string searchText)
         {
-            return AppDbContext<Group>.Datas.Where(x=>x.Name.ToLower().Trim() == searchText.ToLower().Trim()).ToList();
+            return AppDbContext<Group>.Datas.Where(x => x.Name.ToLower().Trim().Contains(searchText.ToLower().Trim())).ToList();
         }
 
         public List<Group> Sort()

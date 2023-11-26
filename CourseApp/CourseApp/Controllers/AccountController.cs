@@ -59,14 +59,19 @@ namespace CourseApp.Controllers
                 goto Age;
             }
             bool IsCorrectType = byte.TryParse(ageStr, out byte age);
-            if (age > 65)
-            {
-                ConsoleColor.DarkRed.ConsoleWriteLine("Age is too high");
-                goto Age;
-            }
             if (!IsCorrectType)
             {
                 ConsoleColor.DarkRed.ConsoleWriteLine("Age format is wrong please enter correct format: ");
+                goto Age;
+            }
+            if (age > 70 || age < 18)
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine("Age must be between 18-70");
+                goto Age;
+            }
+            if (age == 0)
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine("Age cant be zero");
                 goto Age;
             }
 
@@ -91,6 +96,10 @@ namespace CourseApp.Controllers
                 ConsoleColor.DarkRed.ConsoleWriteLine("Password is required!");
                 goto Password;
             }
+            if (!password.PasswordValidation())
+            {
+                goto Password;
+            }
 
             Console.WriteLine("Confirm password: ");
             ConfirmationPassword: string confirmPassword = Console.ReadLine();
@@ -103,10 +112,7 @@ namespace CourseApp.Controllers
             {
                 goto Password;
             }
-            if (!password.PasswordValidation())
-            {
-                goto Password;
-            }
+
 
             
 
