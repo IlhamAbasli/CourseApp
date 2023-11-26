@@ -30,7 +30,7 @@ namespace Repository.Repository
                 {
                     res.Name = group.Name;
                 }
-                if (group.Capacity != 0)
+                if (group.Capacity is not null)
                 {
                     res.Capacity = group.Capacity;
                 }

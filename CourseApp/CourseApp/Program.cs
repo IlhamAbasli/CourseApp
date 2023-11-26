@@ -12,7 +12,6 @@ while (true)
 {
     ConsoleColor.DarkYellow.ConsoleWriteLine("Login (1) or Sign Up (2)");
     string operationStr = Console.ReadLine();
-
     bool IsCorrectOperation = int.TryParse(operationStr, out int operation);
 
     switch (operation)
@@ -30,9 +29,9 @@ while (true)
 
 Menu:
 Console.Clear();
+AnsiConsole.Write(new FigletText("Welcome to our application").Centered().Color(Color.Lime));
 while (true)
 {
-    AnsiConsole.Write(new FigletText("Welcome to our application").Centered().Color(Color.Lime));
     Menu();
     Operation: string appOperationStr = Console.ReadLine();
     bool IsCorrectOperation = int.TryParse(appOperationStr, out int appOperation);

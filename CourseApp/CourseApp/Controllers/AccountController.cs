@@ -103,6 +103,10 @@ namespace CourseApp.Controllers
             {
                 goto Password;
             }
+            if (!password.PasswordValidation())
+            {
+                goto Password;
+            }
 
             
 
@@ -110,7 +114,6 @@ namespace CourseApp.Controllers
             Console.Clear();
             ConsoleColor.DarkGreen.ConsoleWriteLine("Account successfully created");
         }
-
         public void Login()
         {
             Console.WriteLine("Enter your email: ");

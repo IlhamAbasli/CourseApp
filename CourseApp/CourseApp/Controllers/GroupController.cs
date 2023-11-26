@@ -219,7 +219,7 @@ namespace CourseApp.Controllers
                         ConsoleColor.DarkGreen.ConsoleWriteLine(data);
 
                         Console.WriteLine("Enter group name for change:");
-                        Name: string name = Console.ReadLine();
+                    Name: string name = Console.ReadLine();
                         var groups = _groupService.GetAll();
                         foreach (var group in groups)
                         {
@@ -232,9 +232,13 @@ namespace CourseApp.Controllers
 
                         Console.WriteLine("Enter group capacity for change:");
                         string capacityStr = Console.ReadLine();
-                        bool isCorrect = int.TryParse(capacityStr, out int capacity);
+                        if (!string.IsNullOrWhiteSpace(capacityStr))
+                        {
+                            int capacity;
+                            bool isCorrect = int.TryParse(capacityStr, out capacity);
+                            _groupService.Edit(id, new Group { Name = name, Capacity = capacity});
 
-                        _groupService.Edit(id, new Group { Name = name, Capacity = capacity });
+                        }
                         ConsoleColor.Green.ConsoleWriteLine("Group successfully edited");
                     }
                 }

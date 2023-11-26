@@ -30,5 +30,17 @@ namespace Service.Helpers.Extensions
             }
             return true;
         }
+
+        public static bool PasswordValidation(this string password)
+        {
+            Regex regex = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+            if(!regex.IsMatch(password))
+            {
+                ConsoleColor.DarkRed.ConsoleWriteLine("Password must contain minimum 8 characters,at least one uppercase,one lowercase,one digit and one special chareacter");
+                return false;
+            }
+
+            return true;
+        }
     }
 }
